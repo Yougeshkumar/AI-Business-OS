@@ -1,0 +1,17 @@
+{
+  "name": "ai-bos",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.9.7",
+  "scripts": {
+    "dev": "pnpm --filter @ai-bos/web dev",
+    "build": "pnpm --filter @ai-bos/web build",
+    "lint": "pnpm --filter @ai-bos/web lint",
+    "typecheck": "pnpm --filter @ai-bos/web typecheck",
+    "format": "pnpm --filter @ai-bos/web format"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  }
+}
