@@ -28,9 +28,7 @@ def _new_id(prefix: str) -> str:
 class RequestContextMiddleware(BaseHTTPMiddleware):
     """Attach request/trace identifiers and structured access logging."""
 
-    async def dispatch(
-        self, request: Request, call_next: RequestHandler
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestHandler) -> Response:
         request_id = request.headers.get("X-Request-Id") or _new_id("req")
         trace_id = request.headers.get("X-Trace-Id") or _new_id("tr")
 
