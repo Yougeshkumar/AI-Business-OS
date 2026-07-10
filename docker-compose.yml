@@ -42,7 +42,7 @@ services:
       LOG_JSON: ${LOG_JSON:-true}
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-aibos}:${POSTGRES_PASSWORD:-aibos}@postgres:5432/${POSTGRES_DB:-aibos}
       REDIS_URL: redis://redis:6379/0
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      CORS_ORIGINS: '["http://localhost:3000"]'
     ports:
       - "8000:8000"
     depends_on:
