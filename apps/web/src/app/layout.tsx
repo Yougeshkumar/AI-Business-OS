@@ -10,11 +10,7 @@ export const metadata: Metadata = {
   description: 'Unified AI-native business operations platform',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}): ReactNode {
+export default function RootLayout({ children }: { children: ReactNode }): ReactNode {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
