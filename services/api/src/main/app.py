@@ -7,8 +7,8 @@ in later sprints; Sprint 0 ships only the platform foundation.
 
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 
 import structlog
 from fastapi import FastAPI

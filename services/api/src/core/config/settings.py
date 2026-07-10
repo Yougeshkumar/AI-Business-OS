@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     version: str = Field(default="0.1.0")
 
     # --- Server --------------------------------------------------------------
-    host: str = Field(default="0.0.0.0")
+    host: str = Field(default="0.0.0.0")  # noqa: S104
     port: int = Field(default=8000, ge=1, le=65535)
 
     # --- Logging -------------------------------------------------------------

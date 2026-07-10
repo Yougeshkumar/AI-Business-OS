@@ -40,7 +40,7 @@ def get_redis() -> Redis:
     """Return the initialised Redis client, initialising if necessary."""
     if _client is None:
         init_redis()
-    assert _client is not None  # noqa: S101 - guaranteed by init_redis
+    assert _client is not None
     return _client
 
 
