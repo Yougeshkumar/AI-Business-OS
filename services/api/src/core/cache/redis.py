@@ -6,16 +6,18 @@ that need Redis. The client is created on startup and closed on shutdown.
 
 from __future__ import annotations
 
+from typing import Any
+
 from redis.asyncio import Redis
 from redis.asyncio.connection import ConnectionPool
 
 from src.core.config import Settings, get_settings
 
-_pool: ConnectionPool | None = None
-_client: Redis | None = None
+_pool: ConnectionPool[Any] | None = None
+_client: Redis[Any] | None = None
 
 
-def init_redis(settings: Settings | None = None) -> Redis:
+def init_redis(settings: Settings | None = None) -> Redis[Any]:
     """Initialise the module-level Redis client once.
 
     Args:
@@ -36,7 +38,7 @@ def init_redis(settings: Settings | None = None) -> Redis:
     return _client
 
 
-def get_redis() -> Redis:
+def get_redis() -> Redis[Any]:
     """Return the initialised Redis client, initialising if necessary."""
     if _client is None:
         init_redis()
@@ -48,7 +50,7 @@ async def close_redis() -> None:
     """Close the Redis client and connection pool (used on shutdown)."""
     global _pool, _client
     if _client is not None:
-        await _client.aclose()
+        await _client.close()
     if _pool is not None:
         await _pool.disconnect()
     _client = None
