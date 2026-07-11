@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 import sys
-from typing import Any
+from typing import Any, cast
 
 import structlog
 from structlog.types import Processor
@@ -68,23 +68,25 @@ def _add_service_context(settings: Settings) -> Processor:
     """Return a processor that binds static service-identifying fields."""
 
     def processor(
-        _logger: object, _method: str, event_dict: dict[str, Any]
+        _logger: Any,
+        _method: str,
+        event_dict: dict[str, Any],
     ) -> dict[str, Any]:
         event_dict.setdefault("service", settings.app_name)
         event_dict.setdefault("environment", settings.environment.value)
         event_dict.setdefault("version", settings.version)
         return event_dict
 
-    return processor
+    return cast(Processor, processor)
 
 
 def get_logger(name: str | None = None) -> structlog.stdlib.BoundLogger:
-    """Return a bound structlog logger.
+    """Return a configured bound structlog logger.
 
     Args:
-        name: Optional logger name (usually ``__name__``).
+        name: Optional logger name.
 
     Returns:
-        A configured bound logger.
+        Configured bound logger.
     """
-    return structlog.get_logger(name)
+    return cast(structlog.stdlib.BoundLogger, structlog.get_logger(name))

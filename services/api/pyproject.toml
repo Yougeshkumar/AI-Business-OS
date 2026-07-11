@@ -95,3 +95,7 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-ra -q"
+
+[[tool.mypy.overrides]]
+module = ["migrations.*"]
+ignore_errors = true
