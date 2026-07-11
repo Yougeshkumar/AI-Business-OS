@@ -52,10 +52,7 @@ async def test_register_second_org_same_email_allowed(
     )
 
     assert second.status_code == 201
-    assert (
-        first.json()["organization"]["slug"]
-        != second.json()["organization"]["slug"]
-    )
+    assert first.json()["organization"]["slug"] != second.json()["organization"]["slug"]
 
 
 async def test_login_returns_tokens(api_client: AsyncClient) -> None:
