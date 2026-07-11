@@ -5,6 +5,7 @@ import axios, {
 } from 'axios';
 
 import { env } from '@/lib/env';
+import { getAccessToken } from '@/stores/auth-store';
 
 /** Shape of the standard error envelope returned by the API. */
 export interface ApiErrorBody {
@@ -27,7 +28,10 @@ function createApiClient(): AxiosInstance {
 
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-      // Auth token injection is added in a later sprint.
+      const token = getAccessToken();
+      if (token) {
+        config.headers.set('Authorization', `Bearer ${token}`);
+      }
       return config;
     },
   );

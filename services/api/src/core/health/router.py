@@ -65,7 +65,7 @@ async def _check_database() -> DependencyStatus:
         async with factory() as session:
             await session.execute(text("SELECT 1"))
         return DependencyStatus(name="postgresql", healthy=True)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - report any failure as unhealthy
         logger.warning("db_health_check_failed", error=str(exc))
         return DependencyStatus(
             name="postgresql", healthy=False, detail="connection failed"
@@ -77,7 +77,7 @@ async def _check_redis() -> DependencyStatus:
         client = get_redis()
         await client.ping()
         return DependencyStatus(name="redis", healthy=True)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - report any failure as unhealthy
         logger.warning("redis_health_check_failed", error=str(exc))
         return DependencyStatus(name="redis", healthy=False, detail="connection failed")
 

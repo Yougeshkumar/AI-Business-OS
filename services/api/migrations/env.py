@@ -16,6 +16,10 @@ from sqlalchemy.engine import Connection
 from src.core.config import get_settings
 from src.core.db import Base, create_engine
 
+# Import model modules so their tables register on Base.metadata before
+# autogenerate runs. The import is for its registration side effect.
+from src.modules.identity import models as _identity_models  # noqa: F401
+
 config = context.config
 
 if config.config_file_name is not None:

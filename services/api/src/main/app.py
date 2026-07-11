@@ -7,8 +7,8 @@ in later sprints; Sprint 0 ships only the platform foundation.
 
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from collections.abc import AsyncGenerator
 
 import structlog
 from fastapi import FastAPI
@@ -21,6 +21,7 @@ from src.core.errors import register_exception_handlers
 from src.core.health import router as health_router
 from src.core.logging import configure_logging
 from src.core.middleware import RequestContextMiddleware
+from src.modules.identity.api.router import router as identity_router
 
 logger = structlog.get_logger(__name__)
 
@@ -78,6 +79,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     register_exception_handlers(app)
 
     app.include_router(health_router)
+    app.include_router(identity_router, prefix=resolved.api_v1_prefix)
 
     return app
 

@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     version: str = Field(default="0.1.0")
 
     # --- Server --------------------------------------------------------------
-    host: str = Field(default="0.0.0.0")  # noqa: S104
+    host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000, ge=1, le=65535)
 
     # --- Logging -------------------------------------------------------------
@@ -67,7 +67,9 @@ class Settings(BaseSettings):
 
     # --- Database ------------------------------------------------------------
     database_url: PostgresDsn = Field(
-        default=PostgresDsn("postgresql+asyncpg://aibos:aibos@localhost:5432/aibos")
+        default=PostgresDsn(
+            "postgresql+asyncpg://aibos:aibos@localhost:5432/aibos"
+        )
     )
     database_pool_size: int = Field(default=10, ge=1, le=100)
     database_max_overflow: int = Field(default=20, ge=0, le=100)
@@ -81,6 +83,21 @@ class Settings(BaseSettings):
 
     # --- CORS ----------------------------------------------------------------
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+
+    # --- Authentication / JWT ------------------------------------------------
+    jwt_secret_key: str = Field(
+        default="change-me-in-production-this-is-a-dev-only-secret-key-0001"
+    )
+    jwt_algorithm: str = Field(default="HS256")
+    jwt_issuer: str = Field(default="ai-bos")
+    jwt_audience: str = Field(default="ai-bos-api")
+    access_token_ttl_seconds: int = Field(default=900, ge=60)  # 15 minutes
+    refresh_token_ttl_seconds: int = Field(default=604800, ge=300)  # 7 days
+
+    # --- Argon2 password hashing ---------------------------------------------
+    argon2_time_cost: int = Field(default=3, ge=1)
+    argon2_memory_cost: int = Field(default=65536, ge=8)  # KiB
+    argon2_parallelism: int = Field(default=4, ge=1)
 
     @field_validator("cors_origins", mode="before")
     @classmethod
