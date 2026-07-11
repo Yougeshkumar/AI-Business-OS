@@ -47,10 +47,7 @@ async def test_register_second_org_same_email_allowed(
     )
     assert second.status_code == 201
     # The two organizations are distinct (slug disambiguated).
-    assert (
-        first.json()["organization"]["slug"]
-        != second.json()["organization"]["slug"]
-    )
+    assert first.json()["organization"]["slug"] != second.json()["organization"]["slug"]
 
 
 async def test_login_returns_tokens(api_client: AsyncClient) -> None:
@@ -101,9 +98,7 @@ async def test_organizations_me(api_client: AsyncClient) -> None:
 async def test_refresh_rotates_token(api_client: AsyncClient) -> None:
     reg = await _register(api_client, "refresh@x.com", "Refco")
     refresh = reg.json()["tokens"]["refresh_token"]
-    resp = await api_client.post(
-        "/v1/auth/refresh", json={"refresh_token": refresh}
-    )
+    resp = await api_client.post("/v1/auth/refresh", json={"refresh_token": refresh})
     assert resp.status_code == 200
     assert resp.json()["refresh_token"] != refresh
 
@@ -111,13 +106,9 @@ async def test_refresh_rotates_token(api_client: AsyncClient) -> None:
 async def test_logout_then_refresh_fails(api_client: AsyncClient) -> None:
     reg = await _register(api_client, "lo@x.com", "Loco")
     refresh = reg.json()["tokens"]["refresh_token"]
-    logout = await api_client.post(
-        "/v1/auth/logout", json={"refresh_token": refresh}
-    )
+    logout = await api_client.post("/v1/auth/logout", json={"refresh_token": refresh})
     assert logout.status_code == 204
-    resp = await api_client.post(
-        "/v1/auth/refresh", json={"refresh_token": refresh}
-    )
+    resp = await api_client.post("/v1/auth/refresh", json={"refresh_token": refresh})
     assert resp.status_code == 401
 
 

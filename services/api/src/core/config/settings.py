@@ -67,9 +67,7 @@ class Settings(BaseSettings):
 
     # --- Database ------------------------------------------------------------
     database_url: PostgresDsn = Field(
-        default=PostgresDsn(
-            "postgresql+asyncpg://aibos:aibos@localhost:5432/aibos"
-        )
+        default=PostgresDsn("postgresql+asyncpg://aibos:aibos@localhost:5432/aibos")
     )
     database_pool_size: int = Field(default=10, ge=1, le=100)
     database_max_overflow: int = Field(default=20, ge=0, le=100)

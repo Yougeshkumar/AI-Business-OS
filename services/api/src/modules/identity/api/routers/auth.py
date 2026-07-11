@@ -7,8 +7,6 @@ require a valid refresh token in the request body.
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, status
-
 from fastapi import APIRouter, Depends, Response, status
 
 from src.modules.identity.api.dependencies import get_auth_service

@@ -26,9 +26,7 @@ async def get_my_organization(
     organizations: OrganizationRepository = Depends(get_organization_repository),
 ) -> OrganizationRead:
     """Return the organization the current user belongs to."""
-    organization = await organizations.get_by_id(
-        uuid.UUID(context.organization_id)
-    )
+    organization = await organizations.get_by_id(uuid.UUID(context.organization_id))
     if organization is None:
         raise NotFoundError("Organization not found")
     return OrganizationRead.model_validate(organization)

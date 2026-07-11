@@ -11,11 +11,11 @@ from __future__ import annotations
 
 import re
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from src.core.config import Settings, get_settings
 from src.core.db.enums import OrganizationPlan, OrganizationStatus, UserStatus
-from src.core.errors import ConflictError, UnauthenticatedError
+from src.core.errors import UnauthenticatedError
 from src.core.security import (
     create_access_token,
     create_refresh_token,
@@ -101,9 +101,7 @@ class AuthService:
                 description=f"System role: {role_name}",
                 is_system=True,
             )
-            permission_ids = [
-                catalog[code] for code in codes if code in catalog
-            ]
+            permission_ids = [catalog[code] for code in codes if code in catalog]
             if permission_ids:
                 await self._roles.attach_permissions(
                     role_id=role.id, permission_ids=permission_ids
@@ -111,9 +109,7 @@ class AuthService:
             role_ids[role_name] = role.id
         return role_ids
 
-    def _issue_tokens(
-        self, *, user: User
-    ) -> tuple[TokenPair, str, datetime]:
+    def _issue_tokens(self, *, user: User) -> tuple[TokenPair, str, datetime]:
         """Create an access + refresh token pair for a user.
 
         Returns:
@@ -156,9 +152,7 @@ class AuthService:
             status=OrganizationStatus.TRIAL,
         )
 
-        role_ids = await self._seed_system_roles(
-            organization_id=organization.id
-        )
+        role_ids = await self._seed_system_roles(organization_id=organization.id)
 
         user = await self._users.create(
             organization_id=organization.id,
@@ -208,7 +202,7 @@ class AuthService:
         claims = decode_token(
             refresh_token, expected_type="refresh", settings=self._settings
         )
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         if not await self._tokens.is_active(jti=claims.jti, now=now):
             raise UnauthenticatedError("Refresh token is not valid")
 
@@ -241,7 +235,7 @@ class AuthService:
         except UnauthenticatedError:
             # Logout is idempotent: an invalid/expired token is already "out".
             return
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         await self._tokens.revoke(jti=claims.jti, now=now)
 
     async def _user_by_id(self, user_id: uuid.UUID) -> User | None:

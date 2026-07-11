@@ -59,6 +59,4 @@ class TokenService:
 
     async def revoke_all(self, *, user_id: uuid.UUID, now: datetime) -> int:
         """Revoke every active refresh token for a user."""
-        return await self._refresh_tokens.revoke_all_for_user(
-            user_id=user_id, when=now
-        )
+        return await self._refresh_tokens.revoke_all_for_user(user_id=user_id, when=now)

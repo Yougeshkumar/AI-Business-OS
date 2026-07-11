@@ -59,7 +59,11 @@ select = [
     "RUF",  # ruff-specific
 ]
 ignore = [
-    "S101",  # assert used (needed for narrowing Optional module globals)
+    "S101",  # assert
+    "S104",  # 0.0.0.0 binding for Docker/FastAPI
+    "S105",  # hardcoded password string
+    "S106",  # password function arguments
+    "B008",  # FastAPI Depends()
 ]
 
 [tool.ruff.lint.per-file-ignores]

@@ -7,7 +7,7 @@ import uuid
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.core.config import Settings, Environment
+from src.core.config import Environment, Settings
 from src.core.errors import UnauthenticatedError
 from src.modules.identity.models import Permission
 from src.modules.identity.repositories import (
@@ -87,9 +87,7 @@ async def test_login_succeeds_with_correct_password(
         first_name=None,
         last_name=None,
     )
-    result = await service.login(
-        email="user@acme.com", password="correct-password-123"
-    )
+    result = await service.login(email="user@acme.com", password="correct-password-123")
     assert result.tokens.access_token
 
 

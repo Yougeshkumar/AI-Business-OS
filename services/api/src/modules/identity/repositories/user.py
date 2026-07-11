@@ -96,9 +96,7 @@ class UserRepository(BaseRepository):
         means (e.g. a validated refresh-token subject claim). Do not use this
         from request handlers that already have a tenant context.
         """
-        result = await self._session.execute(
-            select(User).where(User.id == user_id)
-        )
+        result = await self._session.execute(select(User).where(User.id == user_id))
         return result.scalar_one_or_none()
 
     async def list_in_current_org(self) -> Sequence[User]:

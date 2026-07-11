@@ -7,7 +7,7 @@ registered on the FastAPI app in :mod:`src.main.app`.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import structlog
 from fastapi import FastAPI, Request
@@ -47,7 +47,7 @@ class ErrorResponse(BaseModel):
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _trace_id(request: Request) -> str:

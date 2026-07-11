@@ -162,9 +162,7 @@ def upgrade() -> None:
             name="fk_role_permissions__permission_id",
             ondelete="CASCADE",
         ),
-        sa.PrimaryKeyConstraint(
-            "role_id", "permission_id", name="pk_role_permissions"
-        ),
+        sa.PrimaryKeyConstraint("role_id", "permission_id", name="pk_role_permissions"),
     )
 
     # --- users (tenant-scoped) ----------------------------------------------
@@ -243,9 +241,7 @@ def upgrade() -> None:
         "ix_refresh_tokens__organization_id", "refresh_tokens", ["organization_id"]
     )
     op.create_index("ix_refresh_tokens__user_id", "refresh_tokens", ["user_id"])
-    op.create_index(
-        "ix_refresh_tokens__token_hash", "refresh_tokens", ["token_hash"]
-    )
+    op.create_index("ix_refresh_tokens__token_hash", "refresh_tokens", ["token_hash"])
 
     # --- seed the global permission catalog ---------------------------------
     permissions_table = sa.table(

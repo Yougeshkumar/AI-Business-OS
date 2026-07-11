@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any, Literal
 
 import jwt
@@ -36,7 +36,7 @@ class TokenClaims:
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def _encode(
@@ -178,6 +178,6 @@ def decode_token(
         role=str(payload.get("role", "")),
         token_type=token_type,
         jti=str(payload["jti"]),
-        expires_at=datetime.fromtimestamp(int(payload["exp"]), tz=timezone.utc),
-        issued_at=datetime.fromtimestamp(int(payload["iat"]), tz=timezone.utc),
+        expires_at=datetime.fromtimestamp(int(payload["exp"]), tz=UTC),
+        issued_at=datetime.fromtimestamp(int(payload["iat"]), tz=UTC),
     )

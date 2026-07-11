@@ -21,10 +21,10 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from src.core.config import Environment, Settings
 from src.core.db import Base, create_engine
+from src.main.app import create_app
 
 # Import models so their tables register on Base.metadata.
 from src.modules.identity import models as _models  # noqa: F401
-from src.main.app import create_app
 
 _PERMISSIONS = [
     ("users", "read"),
@@ -66,7 +66,7 @@ async def db_engine() -> AsyncGenerator[AsyncEngine, None]:
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-    except Exception as exc:  # noqa: BLE001 - unreachable DB -> skip, don't fail
+    except Exception as exc:
         await engine.dispose()
         pytest.skip(f"Database not reachable: {exc}")
 

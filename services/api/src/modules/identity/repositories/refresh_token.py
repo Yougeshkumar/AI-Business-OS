@@ -54,9 +54,7 @@ class RefreshTokenRepository:
         token.revoked_at = when
         await self._session.flush()
 
-    async def revoke_all_for_user(
-        self, *, user_id: uuid.UUID, when: datetime
-    ) -> int:
+    async def revoke_all_for_user(self, *, user_id: uuid.UUID, when: datetime) -> int:
         """Revoke all active refresh tokens for a user.
 
         Returns:

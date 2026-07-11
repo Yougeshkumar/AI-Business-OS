@@ -38,9 +38,7 @@ class Role(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
-    is_system: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, default=False
-    )
+    is_system: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
     permissions: Mapped[list[Permission]] = relationship(
         "Permission",

@@ -59,9 +59,7 @@ class RoleRepository:
         result = await self._session.execute(select(Permission))
         return result.scalars().all()
 
-    async def get_permissions_by_codes(
-        self, codes: Sequence[str]
-    ) -> list[Permission]:
+    async def get_permissions_by_codes(self, codes: Sequence[str]) -> list[Permission]:
         """Return catalog permissions whose ``resource.action`` code is in ``codes``.
 
         Args:
